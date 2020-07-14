@@ -1,3 +1,62 @@
+@import "variables";
+
+html {
+  font-family: arial, sans-serif;
+}
+
 body {
   margin: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  width: 707px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  font-size: $font-size;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: $cell-width;
+    height: 100px;
+    margin-left: $cell-gap;
+    margin-bottom: $cell-gap;
+    background-color: #eee;
+    border: 1px solid black;
+    transition: margin-top 0.5s, background-color 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      margin-top: -20px;
+      background-color: #ffbfcb;
+    }
+  }
+
+  @each $class-name, $left-margin in $first-day-margin {
+    &-#{$class-name} div:first-child {
+      margin-left: #{$left-margin};
+    }
+  }
+
+  @each $class-name, $days in $days-in-month {
+    @for $day from 1 through $days {
+      &-#{$class-name} div:nth-child(#{$day})::before {
+        content: "#{$day}";
+      }
+    }
+
+    @for $day from $days + 1 through 32 {
+      &-#{$class-name} div:nth-child(#{$day}) {
+        display: none;
+      }
+    }
+  }
 }
